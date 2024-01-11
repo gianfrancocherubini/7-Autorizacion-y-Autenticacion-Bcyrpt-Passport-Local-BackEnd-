@@ -16,7 +16,7 @@ export const inicializarPassport=()=>{
                 console.log("Estrategia local registro de Passport...!!!")
                 let {nombre, email}=req.body
                 if(!nombre || !email || !password){
-                                        return done(null, false)
+                    return done(null, false)
                 }
             
                 let regMail=/^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
@@ -40,7 +40,7 @@ export const inicializarPassport=()=>{
                     }
                 } else {
                     password = creaHash(password);
-                    try {
+                    try { 
                         let usuario = await UsuariosModelo.create({ nombre, email, password});
                         return done(null, usuario)
                     } catch (error) {
