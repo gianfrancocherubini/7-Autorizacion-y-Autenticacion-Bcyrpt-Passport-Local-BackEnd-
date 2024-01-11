@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
             currentCategory: category,
             login: req.session.usuario?true:false
         });
-        console.log(products);
+        
     } catch (err) {
         console.error(err);
         res.setHeader('Content-Type', 'application/json');

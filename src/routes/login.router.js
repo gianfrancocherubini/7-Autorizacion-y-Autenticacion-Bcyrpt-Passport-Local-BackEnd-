@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { UsuariosModelo } from '../dao/models/usuarios.model.js';
 import { validaPassword } from '../utils.js';
+import passport from 'passport';
 
 export const router=Router()
 
@@ -20,31 +21,17 @@ router.get('/', auth2, (req, res) => {
     res.status(200).render('login', { error, message, login: false });
 });
 
-router.post('/', async (req, res) => {
-    let { email, password } = req.body;
+router.get('/errorLogin',(req,res)=>{
+    return res.redirect('/login?error=Error en el proceso de login... :(')
+})
 
-    if (!email || !password) {
-        res.status(400).redirect('/api/login?message=Complete todos los datos'); 
-        return;
-    }
-
-    let usuario = await UsuariosModelo.findOne({ email });
-
-    if (!usuario) {
-        res.status(401).redirect(`/api/login?error=credenciales incorrectas`); 
-        return;
-    }
-
-    if (!validaPassword(usuario, password)) {
-        res.status(401).redirect(`/api/login?error=credenciales incorrectas`); 
-        return;
-    }
-
-
+router.post('/', passport.authenticate('login', {failureRedirect: '/api/login/errorLogin'}),  async (req, res) => {
+ 
+    console.log(req.user)
     req.session.usuario = {
-        nombre: usuario.nombre,
-        email: usuario.email,
-        rol: usuario.rol
+        nombre: req.user.nombre,
+        email: req.user.email,
+        rol: req.user.rol
     };
 
     res.redirect('/home');

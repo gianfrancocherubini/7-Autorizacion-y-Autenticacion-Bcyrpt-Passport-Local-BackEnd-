@@ -28,39 +28,9 @@ router.get('/errorRegistro',(req,res)=>{
 
 
 router.post('/', passport.authenticate('registro', {failureRedirect: '/api/registro/errorRegistro'}), async (req, res) => {
+    
     let {email}=req.body
     res.redirect(`/api/login?message=Usuario ${email} registrado correctamente`)
     
-    // let { nombre, email, password } = req.body;
-    // if (!nombre || !email || !password) {
-    //     return res.status(400).redirect('/api/registro?errorMessage=Complete todos los datos');
-    // }
-
-    // let regMail = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/;
-    // if (!regMail.test(email)) {
-    //     return res.status(400).redirect('/api/registro?errorMessage=Mail con formato incorrecto...!!!');
-    // }
-
-    // let existe = await UsuariosModelo.findOne({ email });
-    // if (existe) {
-    //     return res.status(400).redirect(`/api/registro?errorMessage=Existen usuarios con email ${email} en la BD`);
-    // }
-
-    // if (email === 'adminCoder@coder.com' && password === 'coder123') {
-    //     try {
-    //         let usuario = await UsuariosModelo.create({ nombre, email, rol: 'administrador' });
-    //         res.redirect(`/api/login?message=Usuario ${email} registrado correctamente`);
-    //     } catch (error) {
-    //         res.redirect('/api/registro?error=Error inesperado. Reintente en unos minutos');
-    //     }
-    // } else {
-    //     password = creaHash(password);
-    //     try {
-    //         let usuario = await UsuariosModelo.create({ nombre, email, password});
-    //         res.redirect(`/api/login?message=Usuario ${email} registrado correctamente`);
-    //     } catch (error) {
-    //         res.redirect('/api/registro?error=Error inesperado. Reintente en unos minutos');
-    //     }
-    // }
 });
 

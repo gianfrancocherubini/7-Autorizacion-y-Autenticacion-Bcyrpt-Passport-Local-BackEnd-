@@ -1,7 +1,8 @@
 import passport from 'passport'
 import local from 'passport-local'
 import { UsuariosModelo } from '../dao/models/usuarios.model.js'
-import { creaHash } from '../utils.js'
+import { creaHash, validaPassword } from '../utils.js'
+
 
 
 // exporto 
@@ -61,6 +62,22 @@ export const inicializarPassport=()=>{
         async(username, password, done)=>{
             try {
                 
+                if (!username || !password) {
+                    return done(null, false)
+                }
+            
+                let usuario = await UsuariosModelo.findOne({ email: username}).lean();
+            
+                if (!usuario) {
+                    return done(null, false)
+                }
+            
+                if (!validaPassword(usuario, password)) {
+                    return done(null, false)
+                }  
+                delete usuario.password
+                return done(null, usuario)
+                 
             } catch (error) {
                 done(error, null)
             }
