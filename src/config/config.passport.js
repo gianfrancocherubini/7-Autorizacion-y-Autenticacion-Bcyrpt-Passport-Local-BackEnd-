@@ -31,7 +31,7 @@ export const inicializarPassport=()=>{
                     return done(null, false)
                 }
 
-                if (email === 'adminCoder@coder.com' && password === 'coder123') {
+                if (email === 'adminCoder@coder.com') {
                     try {
                         let usuario = await UsuariosModelo.create({ nombre, email, password, rol: 'administrador' });
                         return done(null, usuario)
